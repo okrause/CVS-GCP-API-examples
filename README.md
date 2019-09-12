@@ -2,7 +2,17 @@
 Some code to do API calls for Cloud Volumes Services for GCP
 
 ## How to use
-Run from GCP Cloud Shell in your project.
+Run from *GCP Cloud Shell*:
 
-1) Create an service account and a keyfile. You can use create-api-service-account.sh to do this.
-2) run "python3 get-volumes.py" from Cloud Shell. In the first run, it will ask you to run a gcloud command to put project number into a environment variable. If variable is populated, it will print existing volumes and offer to delete volumes in state "error".
+1) Create an service account and a keyfile. You can use a script to do this. It create a keyfile named "cvs-api-sa.json'
+```bash
+source create-api-service-account.sh
+```
+2) Run
+```bash
+export DEVSHELL_PROJECT_NUMBER=$(gcloud projects list --filter="$DEVSHELL_PROJECT_ID" --format="value(PROJECT_NUMBER)")
+```
+3) Run get-volumes.py. It will print existing volumes and offer to delete volumes in state "error"
+```bash
+python3 get-volumes.py
+```
