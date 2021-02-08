@@ -18,7 +18,13 @@ python3 -m venv env
 source env/bin/activate
 pip3 install -r requirements.txt
 ```
-4) Run get-volumes.py. It will print existing volumes and offer to delete volumes in state "error"
+4) Run script
+
+get-volumes.py It will print existing volumes and offer to delete volumes in state "error"
 ```bash
 python3 get-volumes.py
+```
+update-ActiveDirectory.py: Will read existing AD setting and can update fields
+```bash
+python3 update-ActiveDirectory.py europe-west4
 ```
