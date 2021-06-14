@@ -79,7 +79,10 @@ for ad in r.json():
                         'region',
                         'username',
                         'backupOperators',
-                        'securityOperators']
+                        'securityOperators',
+                        "aesEncryption",
+                        "allowLocalNFSUsersWithLdap"
+                        ]
         uuid = ad["UUID"]
  
         newad = dict()
@@ -88,9 +91,10 @@ for ad in r.json():
             if key in ad:
                 newad[key] = ad[key]
 
-        # add new keys we want to set
+        # add new keys we want to set. Eaxmples:
         # newad["site"] = "Default-First-Site-Name"#
         newad["backupOperators"] = ["svc-GFC"]
+        # newad["aesEncryption"] = True
 
         # password will not be returned by GET call. You have to set it again
         newad["password"] = "xxx"
@@ -98,10 +102,15 @@ for ad in r.json():
         # print(json.dumps(newad, indent=4, sort_keys=True))
 
         # update AD
-        put_url = server + "/v2/projects/" + str(project_number) + "/locations/" + region + "/Storage/ActiveDirectory/" + uuid
-        r2 = requests.put(put_url, data=json.dumps(newad), headers=headers)
-        print("New AD settings:")
-        print(json.dumps(r2.json(), indent=4))
+        inp = input("Do you want to write modifications done to the settings? Enter YES to continue or anything else to stop: ")
+        if inp == "YES":
+            print("Updating settings:")
+            put_url = server + "/v2/projects/" + str(project_number) + "/locations/" + region + "/Storage/ActiveDirectory/" + uuid
+            r2 = requests.put(put_url, data=json.dumps(newad), headers=headers)
+            print("New AD settings:")
+            print(json.dumps(r2.json(), indent=4))
+        else:
+            print("No updates")
 
         found=True
         break
